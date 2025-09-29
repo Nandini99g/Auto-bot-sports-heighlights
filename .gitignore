@@ -1,0 +1,5 @@
+*.tfstate*
+*.tfplan
+__pycache__/
+*.pyc
+*.tfstate*
