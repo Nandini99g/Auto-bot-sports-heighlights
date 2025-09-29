@@ -1,0 +1,1192 @@
+{
+  "version": 4,
+  "terraform_version": "1.13.3",
+  "serial": 20,
+  "lineage": "f20b3b7e-7f97-9c1f-866f-e69fba76ae82",
+  "outputs": {
+    "ec2_iam_role": {
+      "value": "arn:aws:iam::297473910418:role/sports-highlights-ec2-role",
+      "type": "string"
+    },
+    "ec2_instance_id": {
+      "value": "i-030baef0e7d8ddf96",
+      "type": "string"
+    },
+    "ec2_public_ip": {
+      "value": "13.201.67.129",
+      "type": "string"
+    },
+    "logs_bucket": {
+      "value": "sports-highlights-logs-297473910418",
+      "type": "string"
+    },
+    "mediaconvert_role_arn": {
+      "value": "arn:aws:iam::297473910418:role/sports-highlights-mediaconvert-role",
+      "type": "string"
+    },
+    "metadata_bucket": {
+      "value": "sports-highlights-metadata-297473910418",
+      "type": "string"
+    },
+    "sns_topic_arn": {
+      "value": "",
+      "type": "string"
+    },
+    "videos_bucket": {
+      "value": "sports-highlights-videos-297473910418",
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "mode": "data",
+      "type": "aws_ami",
+      "name": "ubuntu",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "architecture": "x86_64",
+            "arn": "arn:aws:ec2:ap-south-1::image/ami-03a2446aa1d3f50cd",
+            "block_device_mappings": [
+              {
+                "device_name": "/dev/sda1",
+                "ebs": {
+                  "delete_on_termination": "true",
+                  "encrypted": "false",
+                  "iops": "0",
+                  "snapshot_id": "snap-02dfe18367b3877b1",
+                  "throughput": "0",
+                  "volume_initialization_rate": "0",
+                  "volume_size": "8",
+                  "volume_type": "gp2"
+                },
+                "no_device": "",
+                "virtual_name": ""
+              },
+              {
+                "device_name": "/dev/sdb",
+                "ebs": {},
+                "no_device": "",
+                "virtual_name": "ephemeral0"
+              },
+              {
+                "device_name": "/dev/sdc",
+                "ebs": {},
+                "no_device": "",
+                "virtual_name": "ephemeral1"
+              }
+            ],
+            "boot_mode": "uefi-preferred",
+            "creation_date": "2025-09-18T07:09:00.000Z",
+            "deprecation_time": "2027-09-18T07:09:00.000Z",
+            "description": "Canonical, Ubuntu, 22.04, amd64 jammy image",
+            "ena_support": true,
+            "executable_users": null,
+            "filter": [
+              {
+                "name": "name",
+                "values": [
+                  "ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"
+                ]
+              }
+            ],
+            "hypervisor": "xen",
+            "id": "ami-03a2446aa1d3f50cd",
+            "image_id": "ami-03a2446aa1d3f50cd",
+            "image_location": "amazon/ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20250918",
+            "image_owner_alias": "amazon",
+            "image_type": "machine",
+            "imds_support": "",
+            "include_deprecated": false,
+            "kernel_id": "",
+            "last_launched_time": "",
+            "most_recent": true,
+            "name": "ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20250918",
+            "name_regex": null,
+            "owner_id": "099720109477",
+            "owners": [
+              "099720109477"
+            ],
+            "platform": "",
+            "platform_details": "Linux/UNIX",
+            "product_codes": [],
+            "public": true,
+            "ramdisk_id": "",
+            "root_device_name": "/dev/sda1",
+            "root_device_type": "ebs",
+            "root_snapshot_id": "snap-02dfe18367b3877b1",
+            "sriov_net_support": "simple",
+            "state": "available",
+            "state_reason": {
+              "code": "UNSET",
+              "message": "UNSET"
+            },
+            "tags": {},
+            "timeouts": null,
+            "tpm_support": "",
+            "uefi_data": null,
+            "usage_operation": "RunInstances",
+            "virtualization_type": "hvm"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0
+        }
+      ]
+    },
+    {
+      "mode": "data",
+      "type": "aws_caller_identity",
+      "name": "me",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "account_id": "297473910418",
+            "arn": "arn:aws:iam::297473910418:user/New_user",
+            "id": "297473910418",
+            "user_id": "AIDAUKQWTU2JCNQWYH3M7"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0
+        }
+      ]
+    },
+    {
+      "mode": "data",
+      "type": "aws_iam_policy_document",
+      "name": "ec2_assume",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "2851119427",
+            "json": "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": \"sts:AssumeRole\",\n      \"Principal\": {\n        \"Service\": \"ec2.amazonaws.com\"\n      }\n    }\n  ]\n}",
+            "minified_json": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Action\":\"sts:AssumeRole\",\"Principal\":{\"Service\":\"ec2.amazonaws.com\"}}]}",
+            "override_json": null,
+            "override_policy_documents": null,
+            "policy_id": null,
+            "source_json": null,
+            "source_policy_documents": null,
+            "statement": [
+              {
+                "actions": [
+                  "sts:AssumeRole"
+                ],
+                "condition": [],
+                "effect": "Allow",
+                "not_actions": [],
+                "not_principals": [],
+                "not_resources": [],
+                "principals": [
+                  {
+                    "identifiers": [
+                      "ec2.amazonaws.com"
+                    ],
+                    "type": "Service"
+                  }
+                ],
+                "resources": [],
+                "sid": ""
+              }
+            ],
+            "version": "2012-10-17"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0
+        }
+      ]
+    },
+    {
+      "mode": "data",
+      "type": "aws_iam_policy_document",
+      "name": "ec2_policy",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "3821226545",
+            "json": "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Sid\": \"S3Access\",\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"s3:PutObject\",\n        \"s3:ListBucket\",\n        \"s3:GetObject\",\n        \"s3:DeleteObject\"\n      ],\n      \"Resource\": [\n        \"arn:aws:s3:::sports-highlights-videos-297473910418/*\",\n        \"arn:aws:s3:::sports-highlights-videos-297473910418\",\n        \"arn:aws:s3:::sports-highlights-metadata-297473910418/*\",\n        \"arn:aws:s3:::sports-highlights-metadata-297473910418\",\n        \"arn:aws:s3:::sports-highlights-logs-297473910418/*\",\n        \"arn:aws:s3:::sports-highlights-logs-297473910418\"\n      ]\n    },\n    {\n      \"Sid\": \"MediaConvertAccess\",\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"mediaconvert:GetJob\",\n        \"mediaconvert:DescribeEndpoints\",\n        \"mediaconvert:CreateJob\",\n        \"mediaconvert:CancelJob\"\n      ],\n      \"Resource\": \"*\"\n    },\n    {\n      \"Sid\": \"SSMAccess\",\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"ssm:SendCommand\",\n        \"ssm:ListCommands\",\n        \"ssm:GetCommandInvocation\"\n      ],\n      \"Resource\": \"*\"\n    },\n    {\n      \"Sid\": \"SNSAccess\",\n      \"Effect\": \"Allow\",\n      \"Action\": \"sns:Publish\",\n      \"Resource\": \"*\"\n    }\n  ]\n}",
+            "minified_json": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Sid\":\"S3Access\",\"Effect\":\"Allow\",\"Action\":[\"s3:PutObject\",\"s3:ListBucket\",\"s3:GetObject\",\"s3:DeleteObject\"],\"Resource\":[\"arn:aws:s3:::sports-highlights-videos-297473910418/*\",\"arn:aws:s3:::sports-highlights-videos-297473910418\",\"arn:aws:s3:::sports-highlights-metadata-297473910418/*\",\"arn:aws:s3:::sports-highlights-metadata-297473910418\",\"arn:aws:s3:::sports-highlights-logs-297473910418/*\",\"arn:aws:s3:::sports-highlights-logs-297473910418\"]},{\"Sid\":\"MediaConvertAccess\",\"Effect\":\"Allow\",\"Action\":[\"mediaconvert:GetJob\",\"mediaconvert:DescribeEndpoints\",\"mediaconvert:CreateJob\",\"mediaconvert:CancelJob\"],\"Resource\":\"*\"},{\"Sid\":\"SSMAccess\",\"Effect\":\"Allow\",\"Action\":[\"ssm:SendCommand\",\"ssm:ListCommands\",\"ssm:GetCommandInvocation\"],\"Resource\":\"*\"},{\"Sid\":\"SNSAccess\",\"Effect\":\"Allow\",\"Action\":\"sns:Publish\",\"Resource\":\"*\"}]}",
+            "override_json": null,
+            "override_policy_documents": null,
+            "policy_id": null,
+            "source_json": null,
+            "source_policy_documents": null,
+            "statement": [
+              {
+                "actions": [
+                  "s3:DeleteObject",
+                  "s3:GetObject",
+                  "s3:ListBucket",
+                  "s3:PutObject"
+                ],
+                "condition": [],
+                "effect": "Allow",
+                "not_actions": [],
+                "not_principals": [],
+                "not_resources": [],
+                "principals": [],
+                "resources": [
+                  "arn:aws:s3:::sports-highlights-logs-297473910418",
+                  "arn:aws:s3:::sports-highlights-logs-297473910418/*",
+                  "arn:aws:s3:::sports-highlights-metadata-297473910418",
+                  "arn:aws:s3:::sports-highlights-metadata-297473910418/*",
+                  "arn:aws:s3:::sports-highlights-videos-297473910418",
+                  "arn:aws:s3:::sports-highlights-videos-297473910418/*"
+                ],
+                "sid": "S3Access"
+              },
+              {
+                "actions": [
+                  "mediaconvert:CancelJob",
+                  "mediaconvert:CreateJob",
+                  "mediaconvert:DescribeEndpoints",
+                  "mediaconvert:GetJob"
+                ],
+                "condition": [],
+                "effect": "Allow",
+                "not_actions": [],
+                "not_principals": [],
+                "not_resources": [],
+                "principals": [],
+                "resources": [
+                  "*"
+                ],
+                "sid": "MediaConvertAccess"
+              },
+              {
+                "actions": [
+                  "ssm:GetCommandInvocation",
+                  "ssm:ListCommands",
+                  "ssm:SendCommand"
+                ],
+                "condition": [],
+                "effect": "Allow",
+                "not_actions": [],
+                "not_principals": [],
+                "not_resources": [],
+                "principals": [],
+                "resources": [
+                  "*"
+                ],
+                "sid": "SSMAccess"
+              },
+              {
+                "actions": [
+                  "sns:Publish"
+                ],
+                "condition": [],
+                "effect": "Allow",
+                "not_actions": [],
+                "not_principals": [],
+                "not_resources": [],
+                "principals": [],
+                "resources": [
+                  "*"
+                ],
+                "sid": "SNSAccess"
+              }
+            ],
+            "version": "2012-10-17"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0
+        }
+      ]
+    },
+    {
+      "mode": "data",
+      "type": "aws_iam_policy_document",
+      "name": "mc_assume",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "289869097",
+            "json": "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": \"sts:AssumeRole\",\n      \"Principal\": {\n        \"Service\": \"mediaconvert.amazonaws.com\"\n      }\n    }\n  ]\n}",
+            "minified_json": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Action\":\"sts:AssumeRole\",\"Principal\":{\"Service\":\"mediaconvert.amazonaws.com\"}}]}",
+            "override_json": null,
+            "override_policy_documents": null,
+            "policy_id": null,
+            "source_json": null,
+            "source_policy_documents": null,
+            "statement": [
+              {
+                "actions": [
+                  "sts:AssumeRole"
+                ],
+                "condition": [],
+                "effect": "Allow",
+                "not_actions": [],
+                "not_principals": [],
+                "not_resources": [],
+                "principals": [
+                  {
+                    "identifiers": [
+                      "mediaconvert.amazonaws.com"
+                    ],
+                    "type": "Service"
+                  }
+                ],
+                "resources": [],
+                "sid": ""
+              }
+            ],
+            "version": "2012-10-17"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0
+        }
+      ]
+    },
+    {
+      "mode": "data",
+      "type": "aws_iam_policy_document",
+      "name": "mediaconvert_policy",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "1765787188",
+            "json": "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"s3:PutObjectAcl\",\n        \"s3:PutObject\",\n        \"s3:ListBucket\",\n        \"s3:GetBucketLocation\"\n      ],\n      \"Resource\": [\n        \"arn:aws:s3:::sports-highlights-videos-297473910418/*\",\n        \"arn:aws:s3:::sports-highlights-videos-297473910418\"\n      ]\n    }\n  ]\n}",
+            "minified_json": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Action\":[\"s3:PutObjectAcl\",\"s3:PutObject\",\"s3:ListBucket\",\"s3:GetBucketLocation\"],\"Resource\":[\"arn:aws:s3:::sports-highlights-videos-297473910418/*\",\"arn:aws:s3:::sports-highlights-videos-297473910418\"]}]}",
+            "override_json": null,
+            "override_policy_documents": null,
+            "policy_id": null,
+            "source_json": null,
+            "source_policy_documents": null,
+            "statement": [
+              {
+                "actions": [
+                  "s3:GetBucketLocation",
+                  "s3:ListBucket",
+                  "s3:PutObject",
+                  "s3:PutObjectAcl"
+                ],
+                "condition": [],
+                "effect": "Allow",
+                "not_actions": [],
+                "not_principals": [],
+                "not_resources": [],
+                "principals": [],
+                "resources": [
+                  "arn:aws:s3:::sports-highlights-videos-297473910418",
+                  "arn:aws:s3:::sports-highlights-videos-297473910418/*"
+                ],
+                "sid": ""
+              }
+            ],
+            "version": "2012-10-17"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0
+        }
+      ]
+    },
+    {
+      "mode": "data",
+      "type": "aws_subnets",
+      "name": "default",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "filter": [
+              {
+                "name": "vpc-id",
+                "values": [
+                  "vpc-058aff9d772e75796"
+                ]
+              }
+            ],
+            "id": "ap-south-1",
+            "ids": [
+              "subnet-05cf335a15a6f9098",
+              "subnet-0a7cece4850e1f768",
+              "subnet-0a4f448875688d4e0"
+            ],
+            "tags": null,
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0
+        }
+      ]
+    },
+    {
+      "mode": "data",
+      "type": "aws_vpc",
+      "name": "default",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:ec2:ap-south-1:297473910418:vpc/vpc-058aff9d772e75796",
+            "cidr_block": "172.31.0.0/16",
+            "cidr_block_associations": [
+              {
+                "association_id": "vpc-cidr-assoc-07eb1e7fcbd186673",
+                "cidr_block": "172.31.0.0/16",
+                "state": "associated"
+              }
+            ],
+            "default": true,
+            "dhcp_options_id": "dopt-061f35881dfcd9bd3",
+            "enable_dns_hostnames": true,
+            "enable_dns_support": true,
+            "enable_network_address_usage_metrics": false,
+            "filter": null,
+            "id": "vpc-058aff9d772e75796",
+            "instance_tenancy": "default",
+            "ipv6_association_id": "",
+            "ipv6_cidr_block": "",
+            "main_route_table_id": "rtb-0cbf712e2e087f2aa",
+            "owner_id": "297473910418",
+            "state": null,
+            "tags": {},
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_iam_instance_profile",
+      "name": "ec2_profile",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:iam::297473910418:instance-profile/sports-highlights-instance-profile",
+            "create_date": "2025-09-21T16:06:43Z",
+            "id": "sports-highlights-instance-profile",
+            "name": "sports-highlights-instance-profile",
+            "name_prefix": "",
+            "path": "/",
+            "role": "sports-highlights-ec2-role",
+            "tags": {},
+            "tags_all": {},
+            "unique_id": "AIPAUKQWTU2JNKETL3FR7"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "aws_iam_role.ec2_role",
+            "data.aws_iam_policy_document.ec2_assume"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_iam_role",
+      "name": "ec2_role",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:iam::297473910418:role/sports-highlights-ec2-role",
+            "assume_role_policy": "{\"Statement\":[{\"Action\":\"sts:AssumeRole\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"ec2.amazonaws.com\"}}],\"Version\":\"2012-10-17\"}",
+            "create_date": "2025-09-21T16:06:42Z",
+            "description": "",
+            "force_detach_policies": false,
+            "id": "sports-highlights-ec2-role",
+            "inline_policy": [
+              {
+                "name": "sports-highlights-ec2-policy",
+                "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"s3:PutObject\",\"s3:ListBucket\",\"s3:GetObject\",\"s3:DeleteObject\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:s3:::sports-highlights-videos-297473910418/*\",\"arn:aws:s3:::sports-highlights-videos-297473910418\",\"arn:aws:s3:::sports-highlights-metadata-297473910418/*\",\"arn:aws:s3:::sports-highlights-metadata-297473910418\",\"arn:aws:s3:::sports-highlights-logs-297473910418/*\",\"arn:aws:s3:::sports-highlights-logs-297473910418\"],\"Sid\":\"S3Access\"},{\"Action\":[\"mediaconvert:GetJob\",\"mediaconvert:DescribeEndpoints\",\"mediaconvert:CreateJob\",\"mediaconvert:CancelJob\"],\"Effect\":\"Allow\",\"Resource\":\"*\",\"Sid\":\"MediaConvertAccess\"},{\"Action\":[\"ssm:SendCommand\",\"ssm:ListCommands\",\"ssm:GetCommandInvocation\"],\"Effect\":\"Allow\",\"Resource\":\"*\",\"Sid\":\"SSMAccess\"},{\"Action\":\"sns:Publish\",\"Effect\":\"Allow\",\"Resource\":\"*\",\"Sid\":\"SNSAccess\"}]}"
+              }
+            ],
+            "managed_policy_arns": [],
+            "max_session_duration": 3600,
+            "name": "sports-highlights-ec2-role",
+            "name_prefix": "",
+            "path": "/",
+            "permissions_boundary": "",
+            "tags": {},
+            "tags_all": {},
+            "unique_id": "AROAUKQWTU2JI7GMBHAJN"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "data.aws_iam_policy_document.ec2_assume"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_iam_role",
+      "name": "mediaconvert_role",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:iam::297473910418:role/sports-highlights-mediaconvert-role",
+            "assume_role_policy": "{\"Statement\":[{\"Action\":\"sts:AssumeRole\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"mediaconvert.amazonaws.com\"}}],\"Version\":\"2012-10-17\"}",
+            "create_date": "2025-09-21T16:06:42Z",
+            "description": "",
+            "force_detach_policies": false,
+            "id": "sports-highlights-mediaconvert-role",
+            "inline_policy": [
+              {
+                "name": "sports-highlights-mediaconvert-policy",
+                "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"s3:PutObjectAcl\",\"s3:PutObject\",\"s3:ListBucket\",\"s3:GetBucketLocation\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:s3:::sports-highlights-videos-297473910418/*\",\"arn:aws:s3:::sports-highlights-videos-297473910418\"]}]}"
+              }
+            ],
+            "managed_policy_arns": [],
+            "max_session_duration": 3600,
+            "name": "sports-highlights-mediaconvert-role",
+            "name_prefix": "",
+            "path": "/",
+            "permissions_boundary": "",
+            "tags": {},
+            "tags_all": {},
+            "unique_id": "AROAUKQWTU2JC5TY3GL2G"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "data.aws_iam_policy_document.mc_assume"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_iam_role_policy",
+      "name": "ec2_inline_policy",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "sports-highlights-ec2-role:sports-highlights-ec2-policy",
+            "name": "sports-highlights-ec2-policy",
+            "name_prefix": "",
+            "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"s3:PutObject\",\"s3:ListBucket\",\"s3:GetObject\",\"s3:DeleteObject\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:s3:::sports-highlights-videos-297473910418/*\",\"arn:aws:s3:::sports-highlights-videos-297473910418\",\"arn:aws:s3:::sports-highlights-metadata-297473910418/*\",\"arn:aws:s3:::sports-highlights-metadata-297473910418\",\"arn:aws:s3:::sports-highlights-logs-297473910418/*\",\"arn:aws:s3:::sports-highlights-logs-297473910418\"],\"Sid\":\"S3Access\"},{\"Action\":[\"mediaconvert:GetJob\",\"mediaconvert:DescribeEndpoints\",\"mediaconvert:CreateJob\",\"mediaconvert:CancelJob\"],\"Effect\":\"Allow\",\"Resource\":\"*\",\"Sid\":\"MediaConvertAccess\"},{\"Action\":[\"ssm:SendCommand\",\"ssm:ListCommands\",\"ssm:GetCommandInvocation\"],\"Effect\":\"Allow\",\"Resource\":\"*\",\"Sid\":\"SSMAccess\"},{\"Action\":\"sns:Publish\",\"Effect\":\"Allow\",\"Resource\":\"*\",\"Sid\":\"SNSAccess\"}]}",
+            "role": "sports-highlights-ec2-role"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "aws_iam_role.ec2_role",
+            "aws_s3_bucket.logs",
+            "aws_s3_bucket.metadata",
+            "aws_s3_bucket.videos",
+            "data.aws_caller_identity.me",
+            "data.aws_iam_policy_document.ec2_assume",
+            "data.aws_iam_policy_document.ec2_policy"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_iam_role_policy",
+      "name": "mediaconvert_inline",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "sports-highlights-mediaconvert-role:sports-highlights-mediaconvert-policy",
+            "name": "sports-highlights-mediaconvert-policy",
+            "name_prefix": "",
+            "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"s3:PutObjectAcl\",\"s3:PutObject\",\"s3:ListBucket\",\"s3:GetBucketLocation\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:s3:::sports-highlights-videos-297473910418/*\",\"arn:aws:s3:::sports-highlights-videos-297473910418\"]}]}",
+            "role": "sports-highlights-mediaconvert-role"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "aws_iam_role.mediaconvert_role",
+            "aws_s3_bucket.videos",
+            "data.aws_caller_identity.me",
+            "data.aws_iam_policy_document.mc_assume",
+            "data.aws_iam_policy_document.mediaconvert_policy"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_instance",
+      "name": "pipeline_instance",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "ami": "ami-03a2446aa1d3f50cd",
+            "arn": "arn:aws:ec2:ap-south-1:297473910418:instance/i-030baef0e7d8ddf96",
+            "associate_public_ip_address": true,
+            "availability_zone": "ap-south-1a",
+            "capacity_reservation_specification": [
+              {
+                "capacity_reservation_preference": "open",
+                "capacity_reservation_target": []
+              }
+            ],
+            "cpu_core_count": 1,
+            "cpu_options": [
+              {
+                "amd_sev_snp": "",
+                "core_count": 1,
+                "threads_per_core": 2
+              }
+            ],
+            "cpu_threads_per_core": 2,
+            "credit_specification": [
+              {
+                "cpu_credits": "unlimited"
+              }
+            ],
+            "disable_api_stop": false,
+            "disable_api_termination": false,
+            "ebs_block_device": [],
+            "ebs_optimized": false,
+            "enable_primary_ipv6": null,
+            "enclave_options": [
+              {
+                "enabled": false
+              }
+            ],
+            "ephemeral_block_device": [],
+            "get_password_data": false,
+            "hibernation": false,
+            "host_id": "",
+            "host_resource_group_arn": null,
+            "iam_instance_profile": "sports-highlights-instance-profile",
+            "id": "i-030baef0e7d8ddf96",
+            "instance_initiated_shutdown_behavior": "stop",
+            "instance_lifecycle": "",
+            "instance_market_options": [],
+            "instance_state": "running",
+            "instance_type": "t3.micro",
+            "ipv6_address_count": 0,
+            "ipv6_addresses": [],
+            "key_name": "sports-highlights-key",
+            "launch_template": [],
+            "maintenance_options": [
+              {
+                "auto_recovery": "default"
+              }
+            ],
+            "metadata_options": [
+              {
+                "http_endpoint": "enabled",
+                "http_protocol_ipv6": "disabled",
+                "http_put_response_hop_limit": 1,
+                "http_tokens": "optional",
+                "instance_metadata_tags": "disabled"
+              }
+            ],
+            "monitoring": false,
+            "network_interface": [],
+            "outpost_arn": "",
+            "password_data": "",
+            "placement_group": "",
+            "placement_partition_number": 0,
+            "primary_network_interface_id": "eni-02919d1a62098dc01",
+            "private_dns": "ip-172-31-43-210.ap-south-1.compute.internal",
+            "private_dns_name_options": [
+              {
+                "enable_resource_name_dns_a_record": false,
+                "enable_resource_name_dns_aaaa_record": false,
+                "hostname_type": "ip-name"
+              }
+            ],
+            "private_ip": "172.31.43.210",
+            "public_dns": "ec2-13-201-67-129.ap-south-1.compute.amazonaws.com",
+            "public_ip": "13.201.67.129",
+            "root_block_device": [
+              {
+                "delete_on_termination": true,
+                "device_name": "/dev/sda1",
+                "encrypted": false,
+                "iops": 100,
+                "kms_key_id": "",
+                "tags": {},
+                "tags_all": {},
+                "throughput": 0,
+                "volume_id": "vol-0deacf13e026fd7ff",
+                "volume_size": 8,
+                "volume_type": "gp2"
+              }
+            ],
+            "secondary_private_ips": [],
+            "security_groups": [
+              "sports-highlights-sg"
+            ],
+            "source_dest_check": true,
+            "spot_instance_request_id": "",
+            "subnet_id": "subnet-05cf335a15a6f9098",
+            "tags": {
+              "Name": "sports-highlights-ec2"
+            },
+            "tags_all": {
+              "Name": "sports-highlights-ec2"
+            },
+            "tenancy": "default",
+            "timeouts": null,
+            "user_data": "db807b7429f9b15dd1267b57d2d4a6645e3142a6",
+            "user_data_base64": null,
+            "user_data_replace_on_change": false,
+            "volume_tags": null,
+            "vpc_security_group_ids": [
+              "sg-0ae1219811be2ed05"
+            ]
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6MTIwMDAwMDAwMDAwMCwicmVhZCI6OTAwMDAwMDAwMDAwLCJ1cGRhdGUiOjYwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "aws_iam_instance_profile.ec2_profile",
+            "aws_iam_role.ec2_role",
+            "aws_key_pair.deployer",
+            "aws_s3_bucket.metadata",
+            "aws_security_group.ec2_sg",
+            "data.aws_ami.ubuntu",
+            "data.aws_caller_identity.me",
+            "data.aws_iam_policy_document.ec2_assume",
+            "data.aws_subnets.default",
+            "data.aws_vpc.default"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_key_pair",
+      "name": "deployer",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "index_key": 0,
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:ap-south-1:297473910418:key-pair/sports-highlights-key",
+            "fingerprint": "89:db:47:df:f2:29:b1:38:8d:d9:df:fb:73:a7:66:51",
+            "id": "sports-highlights-key",
+            "key_name": "sports-highlights-key",
+            "key_name_prefix": "",
+            "key_pair_id": "key-092160ee96139787a",
+            "key_type": "rsa",
+            "public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDkGXNUD/VhIWIpesEjQithaC+OcaFXgsyCV5OxIY755mZ+pShXrutYi97yD0ikPYbNlhN7h+ZX6n10JJnLqHf1422tLqq+/DqPd4gZLidW45Tu+AZJF2Tu/fUpdPacbj5xutvLjoLLyf1aDFLMyqll8VcLPsfaQPzYzcK+gFG+1cHV2wqZde6GzAKRvEllG9kd5Q/Rm8JOcDTEJ3IJ227dT5UcJSknxUrAK10Ewznafjq8OjW4k7kcdTeGElyXhebABw9CcuO4EbpeLMV70O/q+3cNfjln3/gI6cEQcZmdD1jh2T14ISdxf2U1rOe7RSb173XVL8t3f3MICsWhGErZ6xBTnfrpwS3d0ZiM2Pxv98sP4juTOSplh/O62zbuzAjTzb2RvDrb/igngwCrc5OaJxfNG2WTmpxt9G16igojmMyYc26FI8Nclz0ULhwyYadpNToRb6WcK2XT7YmGZZDESVsToipvQp0MMyVCG6/0vfVpuKn9kMAV3qVeWEdGFKmYciewZ6vO7+Bw1nPMnXC52g99m6KbPbAys4d+2IziRoDnzYLIpFwAxW8Ew0I7WOpOGPOiUyBIcjL6QaNolLfL0XcSEjlrkKlGLjsJ2Roety9Wxc/ZTVznGH8tEP/AVOWk7Y2mMwU0Hsv6EVmDkPPOj8BMsmx84nl9Ton/vm4HcQ== nandinigadambli@gmail.com",
+            "tags": {},
+            "tags_all": {}
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjEifQ=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_s3_bucket",
+      "name": "logs",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "acceleration_status": "",
+            "acl": null,
+            "arn": "arn:aws:s3:::sports-highlights-logs-297473910418",
+            "bucket": "sports-highlights-logs-297473910418",
+            "bucket_domain_name": "sports-highlights-logs-297473910418.s3.amazonaws.com",
+            "bucket_prefix": "",
+            "bucket_regional_domain_name": "sports-highlights-logs-297473910418.s3.ap-south-1.amazonaws.com",
+            "cors_rule": [],
+            "force_destroy": false,
+            "grant": [
+              {
+                "id": "6c808200a3f698d67db7ecb90945333284bbf0569fbeb0910368b27c4a60f753",
+                "permissions": [
+                  "FULL_CONTROL"
+                ],
+                "type": "CanonicalUser",
+                "uri": ""
+              }
+            ],
+            "hosted_zone_id": "Z11RGJOFQNVJUP",
+            "id": "sports-highlights-logs-297473910418",
+            "lifecycle_rule": [],
+            "logging": [],
+            "object_lock_configuration": [],
+            "object_lock_enabled": false,
+            "policy": "",
+            "region": "ap-south-1",
+            "replication_configuration": [],
+            "request_payer": "BucketOwner",
+            "server_side_encryption_configuration": [
+              {
+                "rule": [
+                  {
+                    "apply_server_side_encryption_by_default": [
+                      {
+                        "kms_master_key_id": "",
+                        "sse_algorithm": "AES256"
+                      }
+                    ],
+                    "bucket_key_enabled": false
+                  }
+                ]
+              }
+            ],
+            "tags": {
+              "Env": "dev",
+              "Name": "sports-highlights-logs-297473910418"
+            },
+            "tags_all": {
+              "Env": "dev",
+              "Name": "sports-highlights-logs-297473910418"
+            },
+            "timeouts": null,
+            "versioning": [
+              {
+                "enabled": false,
+                "mfa_delete": false
+              }
+            ],
+            "website": [],
+            "website_domain": null,
+            "website_endpoint": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjM2MDAwMDAwMDAwMDAsInJlYWQiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "data.aws_caller_identity.me"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_s3_bucket",
+      "name": "metadata",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "acceleration_status": "",
+            "acl": null,
+            "arn": "arn:aws:s3:::sports-highlights-metadata-297473910418",
+            "bucket": "sports-highlights-metadata-297473910418",
+            "bucket_domain_name": "sports-highlights-metadata-297473910418.s3.amazonaws.com",
+            "bucket_prefix": "",
+            "bucket_regional_domain_name": "sports-highlights-metadata-297473910418.s3.ap-south-1.amazonaws.com",
+            "cors_rule": [],
+            "force_destroy": false,
+            "grant": [
+              {
+                "id": "6c808200a3f698d67db7ecb90945333284bbf0569fbeb0910368b27c4a60f753",
+                "permissions": [
+                  "FULL_CONTROL"
+                ],
+                "type": "CanonicalUser",
+                "uri": ""
+              }
+            ],
+            "hosted_zone_id": "Z11RGJOFQNVJUP",
+            "id": "sports-highlights-metadata-297473910418",
+            "lifecycle_rule": [],
+            "logging": [],
+            "object_lock_configuration": [],
+            "object_lock_enabled": false,
+            "policy": "",
+            "region": "ap-south-1",
+            "replication_configuration": [],
+            "request_payer": "BucketOwner",
+            "server_side_encryption_configuration": [
+              {
+                "rule": [
+                  {
+                    "apply_server_side_encryption_by_default": [
+                      {
+                        "kms_master_key_id": "",
+                        "sse_algorithm": "AES256"
+                      }
+                    ],
+                    "bucket_key_enabled": false
+                  }
+                ]
+              }
+            ],
+            "tags": {
+              "Env": "dev",
+              "Name": "sports-highlights-metadata-297473910418"
+            },
+            "tags_all": {
+              "Env": "dev",
+              "Name": "sports-highlights-metadata-297473910418"
+            },
+            "timeouts": null,
+            "versioning": [
+              {
+                "enabled": false,
+                "mfa_delete": false
+              }
+            ],
+            "website": [],
+            "website_domain": null,
+            "website_endpoint": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjM2MDAwMDAwMDAwMDAsInJlYWQiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "data.aws_caller_identity.me"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_s3_bucket",
+      "name": "videos",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "acceleration_status": "",
+            "acl": null,
+            "arn": "arn:aws:s3:::sports-highlights-videos-297473910418",
+            "bucket": "sports-highlights-videos-297473910418",
+            "bucket_domain_name": "sports-highlights-videos-297473910418.s3.amazonaws.com",
+            "bucket_prefix": "",
+            "bucket_regional_domain_name": "sports-highlights-videos-297473910418.s3.ap-south-1.amazonaws.com",
+            "cors_rule": [],
+            "force_destroy": false,
+            "grant": [
+              {
+                "id": "6c808200a3f698d67db7ecb90945333284bbf0569fbeb0910368b27c4a60f753",
+                "permissions": [
+                  "FULL_CONTROL"
+                ],
+                "type": "CanonicalUser",
+                "uri": ""
+              }
+            ],
+            "hosted_zone_id": "Z11RGJOFQNVJUP",
+            "id": "sports-highlights-videos-297473910418",
+            "lifecycle_rule": [],
+            "logging": [],
+            "object_lock_configuration": [],
+            "object_lock_enabled": false,
+            "policy": "",
+            "region": "ap-south-1",
+            "replication_configuration": [],
+            "request_payer": "BucketOwner",
+            "server_side_encryption_configuration": [
+              {
+                "rule": [
+                  {
+                    "apply_server_side_encryption_by_default": [
+                      {
+                        "kms_master_key_id": "",
+                        "sse_algorithm": "AES256"
+                      }
+                    ],
+                    "bucket_key_enabled": false
+                  }
+                ]
+              }
+            ],
+            "tags": {
+              "Env": "dev",
+              "Name": "sports-highlights-videos-297473910418"
+            },
+            "tags_all": {
+              "Env": "dev",
+              "Name": "sports-highlights-videos-297473910418"
+            },
+            "timeouts": null,
+            "versioning": [
+              {
+                "enabled": false,
+                "mfa_delete": false
+              }
+            ],
+            "website": [],
+            "website_domain": null,
+            "website_endpoint": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjM2MDAwMDAwMDAwMDAsInJlYWQiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "data.aws_caller_identity.me"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_s3_bucket_public_access_block",
+      "name": "logs_block",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "block_public_acls": true,
+            "block_public_policy": true,
+            "bucket": "sports-highlights-logs-297473910418",
+            "id": "sports-highlights-logs-297473910418",
+            "ignore_public_acls": true,
+            "restrict_public_buckets": true
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "aws_s3_bucket.logs",
+            "data.aws_caller_identity.me"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_s3_bucket_public_access_block",
+      "name": "metadata_block",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "block_public_acls": true,
+            "block_public_policy": true,
+            "bucket": "sports-highlights-metadata-297473910418",
+            "id": "sports-highlights-metadata-297473910418",
+            "ignore_public_acls": true,
+            "restrict_public_buckets": true
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "aws_s3_bucket.metadata",
+            "data.aws_caller_identity.me"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_s3_bucket_public_access_block",
+      "name": "videos_block",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "block_public_acls": true,
+            "block_public_policy": true,
+            "bucket": "sports-highlights-videos-297473910418",
+            "id": "sports-highlights-videos-297473910418",
+            "ignore_public_acls": true,
+            "restrict_public_buckets": true
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "aws_s3_bucket.videos",
+            "data.aws_caller_identity.me"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_security_group",
+      "name": "ec2_sg",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:ap-south-1:297473910418:security-group/sg-0ae1219811be2ed05",
+            "description": "Allow SSH from user",
+            "egress": [
+              {
+                "cidr_blocks": [
+                  "0.0.0.0/0"
+                ],
+                "description": "",
+                "from_port": 0,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "-1",
+                "security_groups": [],
+                "self": false,
+                "to_port": 0
+              }
+            ],
+            "id": "sg-0ae1219811be2ed05",
+            "ingress": [
+              {
+                "cidr_blocks": [
+                  "203.0.113.5/32"
+                ],
+                "description": "SSH",
+                "from_port": 22,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "tcp",
+                "security_groups": [],
+                "self": false,
+                "to_port": 22
+              }
+            ],
+            "name": "sports-highlights-sg",
+            "name_prefix": "",
+            "owner_id": "297473910418",
+            "revoke_rules_on_delete": false,
+            "tags": {
+              "Name": "sports-highlights-sg"
+            },
+            "tags_all": {
+              "Name": "sports-highlights-sg"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-058aff9d772e75796"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6OTAwMDAwMDAwMDAwfSwic2NoZW1hX3ZlcnNpb24iOiIxIn0=",
+          "dependencies": [
+            "data.aws_vpc.default"
+          ]
+        }
+      ]
+    }
+  ],
+  "check_results": null
+}
